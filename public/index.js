@@ -6,18 +6,45 @@ let container = document.querySelector('.product_list');
 
 const loadProducts = (prod) => {
     container.innerHTML = '';
-    for (let i = 0; i < prod.length; i++) {
-        let product = prod[i];
-        let productContainer = document.createElement('div');
-        productContainer.setAttribute('class', 'product');
-        productContainer.innerHTML = `
+    if (typeof prod === 'object') {
+        for (let i = 0; i < prod.length; i++) {
+            let product = prod[i];
+            let productContainer = document.createElement('div');
+            productContainer.setAttribute('class', 'product');
+            productContainer.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>Rating: ${product.rating}</p>
+            <p>Number of Reviews: ${product.reviews.length}</p>
+            <p>Price: ${product.price}</p>
+            <p><button onClick="loadProducts(${product.id})">View Details</button></p>
+            `
+            container.appendChild(productContainer);
+        }
+    } else {
+        let product = products[prod];
+        container.innerHTML = `
         <h3>${product.name}</h3>
+        <p>${product.description}</p?
         <p>Rating: ${product.rating}</p>
         <p>Number of Reviews: ${product.reviews.length}</p>
         <p>Price: ${product.price}</p>
-        <p><button onClick="viewDetail(${product.id})">View Details</button></p>
+        <p>
+            <button onClick="loadProducts(products)">Hide Details</button>
+            <select>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <button onClick="addToCart()">Add To Cart</button>
+        </p>
         `
-        container.appendChild(productContainer);
     }
 }
 
