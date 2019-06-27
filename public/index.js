@@ -4,21 +4,23 @@ let container = document.querySelector('.product_list');
 
 // Add Products to DOM
 
+const changeContainer = (value) => {
+    container.innerHTML = `${value}`;
+}
+
 const loadProducts = (prod) => {
-    container.innerHTML = '';
+    let holder = '';
     for (let i = 0; i < prod.length; i++) {
         let product = prod[i];
-        let productContainer = document.createElement('div');
-        productContainer.setAttribute('class', 'product');
-        productContainer.innerHTML = `
+        holder += `
         <h3>${product.name}</h3>
         <p>Rating: ${product.rating}</p>
         <p>Number of Reviews: ${product.reviews.length}</p>
         <p>Price: ${product.price}</p>
         <p><button onClick="viewDetail(${product.id})">View Details</button></p>
         `
-        container.appendChild(productContainer);
     }
+    changeContainer(holder);
 }
 
 let searchProduct = () => {
