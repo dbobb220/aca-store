@@ -5,23 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>My Store</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
 <body>
-    <header>
-       
-    </header>
+    <header></header>
     <main>
-        <div>
-            <input type="search" name="" id="search">
-            <input type="submit" value="Search" onClick="searchProduct()">
+        <div id="command_container">
+            <div class="row">
+            <div class="col s4 offset-s1">  
+                <input type="search" placeholder="Search" id="search">
+            </div>
+            <div class="col s1">
+                <a class="btn green" onClick="searchProduct()">Search</a>
+            </div>
+            <div class="col s4">
+                <select>
+                    <option value="" disabled selected>Category</option>
+                    <option value="1">Filler</option>
+                    <option value="2">Lorem</option>
+                    <option value="3">Ipsum</option>
+                </select>
+            </div>
+            <div class="col s1">
+                <a class="btn green" onClick="viewCart()">View Cart</a>
+            </div>
         </div>
         <section class="product_list"></section>
     </main>
+    <section class="view_cart"></section>
     <footer>
 
     </footer>
-     <script src="products.js"></script>    
-    <script src="index.js"></script>   
+    <script src="products.js"></script>    
+    <script src="index.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('select').formSelect();
+      });
+    </script>  
 </body>
 </html>

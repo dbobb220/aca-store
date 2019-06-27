@@ -1,0 +1,12 @@
+* {
+    font-family: Lato;
+}
+
+body {
+    margin: 0px;
+}
+
+#command_container .btn {
+    position: relative;
+    top: 5px;
+}
