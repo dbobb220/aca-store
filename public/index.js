@@ -1,6 +1,7 @@
 // declaring variable
 // make section a variable
 let container = document.querySelector('.product_list');
+let holder = '';
 
 // Add Products to DOM
 
@@ -9,7 +10,7 @@ const changeContainer = (value) => {
 }
 
 const loadProducts = (prod) => {
-    let holder = '';
+    holder = '';
     for (let i = 0; i < prod.length; i++) {
         let product = prod[i];
         holder += `
@@ -45,8 +46,49 @@ let viewCart = () => {
 
 //!! View Details
 
-let viewDetail = (id) => {
-    //code 
+let viewDetail = (num) => {
+    let filterProduct = products.filter(x => x.id == num);
+    let product = filterProduct[0];
+    let holder = ''
+    let ratingHolder = document.createElement('ul');
+    for (let i = 0; i < product.reviews.length; i++) {
+        let eachRating = '';
+        eachRating.innerHTML = `
+        <li>Rating: ${product.reviews.rating} - ${product.reviews.description}</li>
+        `
+    }
+    holder += `
+    <div style="display:flex;">
+        <div style="margin-top: 1em;">
+            <img src="${product.imgUrl}" alt="${product.name}"/>
+        </div>
+        <div style="margin-left: 50px;">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p>Rating: ${product.rating}</p>
+            <p>Number of Reviews: ${product.reviews.length}</p>
+            <p>Price: ${product.price}</p>
+            <p>Category: ${product.category}</p>
+            <p>
+                <button onClick="loadProducts(products)">Hide Details</button>
+                <select>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <button onClick="addToCart()">Add To Cart</button>
+            </p>
+        </div>
+    </div>
+    `
+    changeContainer(holder);
 }
 
 // initial product load
