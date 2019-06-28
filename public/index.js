@@ -50,13 +50,10 @@ let viewCart = () => {
 let viewDetail = (num) => {
     let filterProduct = products.filter(x => x.id == num);
     let product = filterProduct[0];
-    let holder = ''
-    let ratingHolder = document.createElement('ul');
+    holder = ''
+    let eachRating = '';
     for (let i = 0; i < product.reviews.length; i++) {
-        let eachRating = '';
-        eachRating.innerHTML = `
-        <li>Rating: ${product.reviews.rating} - ${product.reviews.description}</li>
-        `
+        eachRating += `<li>Rating: ${product.reviews[i].rating} - ${product.reviews[i].description}</li>`
     }
     holder += `
     <div style="display:flex;">
@@ -86,6 +83,8 @@ let viewDetail = (num) => {
                 </select>
                 <button onClick="addToCart()">Add To Cart</button>
             </p>
+            <p>Ratings:</p>
+            <p>${eachRating}</p>
         </div>
     </div>
     `
