@@ -7,6 +7,7 @@ let holder = '';
 
 const changeContainer = (value) => {
     container.innerHTML = `${value}`;
+    console.log('container changed');
 }
 
 const loadProducts = (prod) => {
@@ -22,6 +23,7 @@ const loadProducts = (prod) => {
         `
     }
     changeContainer(holder);
+    console.log('products overview');
 }
 
 let searchProduct = () => {
@@ -36,6 +38,7 @@ let searchProduct = () => {
         }
     }
     loadProducts(holderArray);
+    console.log('search results');
 }
 
 //!! Shopping Cart
@@ -45,7 +48,6 @@ let viewCart = () => {
 }
 
 //!! View Details
-//TODO: add rating loop results to HTML
 
 let viewDetail = (num) => {
     let filterProduct = products.filter(x => x.id == num);
@@ -69,6 +71,8 @@ let viewDetail = (num) => {
             <p>Category: ${product.category}</p>
             <p>
                 <button onClick="loadProducts(products)">Hide Details</button>
+            </p>
+            <p>
                 <select>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -89,6 +93,29 @@ let viewDetail = (num) => {
     </div>
     `
     changeContainer(holder);
+    console.log('product detail');
+}
+
+//!! Add to cart 
+
+let addToCart = () => {
+
+}
+
+//!! Category Filter
+
+let categoryFilter = (category) => {
+    console.log(`filter select for ${category}`);
+    console.log(typeof category);
+    let holderArray = [];
+    category == '' ? holderArray = products :
+    products.forEach(val => {
+        if(category === val.category) {
+            holderArray.push(val)
+        }
+    });
+    loadProducts(holderArray);
+    console.log('category results');
 }
 
 // initial product load

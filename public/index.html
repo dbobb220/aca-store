@@ -14,6 +14,12 @@
             <input type="submit" value="Search" onClick="searchProduct()">
             <button type="reset" onClick="loadProducts(products)">Reset</button>
             <button id="view_cart" onClick="viewCart()">View Cart</button>
+            <select id="category" onChange="categoryFilter(this.value)">
+                <option value="">All Categories</option>
+                <option value="food">Food</option>
+                <option value="electronics">Electronics</option>
+                <option value="sporting">Sporting</option>
+            </select>
         </div>
     </header>
     <main>
