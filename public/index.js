@@ -7,7 +7,7 @@ let holder = '';
 
 const changeContainer = (value) => {
     container.innerHTML = `${value}`;
-    console.log('container changed');
+    console.log('container changing to');
 }
 
 const loadProducts = (prod) => {
@@ -23,7 +23,7 @@ const loadProducts = (prod) => {
         `
     }
     changeContainer(holder);
-    console.log('products overview');
+    console.log('products overview view');
 }
 
 let searchProduct = () => {
@@ -93,7 +93,7 @@ let viewDetail = (num) => {
     </div>
     `
     changeContainer(holder);
-    console.log('product detail');
+    console.log('product detail view');
 }
 
 //!! Add to cart 
@@ -106,7 +106,6 @@ let addToCart = () => {
 
 let categoryFilter = (category) => {
     console.log(`filter select for ${category}`);
-    console.log(typeof category);
     let holderArray = [];
     category == '' ? holderArray = products :
     products.forEach(val => {
