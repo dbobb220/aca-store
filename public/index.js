@@ -45,6 +45,7 @@ let viewCart = () => {
 }
 
 //!! View Details
+//TODO: add rating loop results to HTML
 
 let viewDetail = (num) => {
     let filterProduct = products.filter(x => x.id == num);
