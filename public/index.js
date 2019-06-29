@@ -8,7 +8,7 @@
 let container = document.querySelector('.product_list');
 let holder = '';
 
-// Add Products to DOM
+//!! Add Products to DOM
 
 const changeContainer = (value) => {
     container.innerHTML = `${value}`;
@@ -63,14 +63,22 @@ let viewCart = () => {
             <p><strong>Price:</strong> ${parsedItem[1].price}</p>
             <p><strong>Quantity:</strong> ${parsedItem[0]}</p>
             <p><strong>Cost:</strong> $${parseFloat(removeDollar) * parseInt(parsedItem[0])}</p>
-            <button>Remove From Cart</button>
+            <button onClick="removeCartItem('${parsedItem[1].name}')">Remove From Cart</button>
         `
-        totalCost += parseFloat(removeDollar) * parseInt(parsedItem[0]);
+        let multiplyQuantity = parseFloat(removeDollar) * parseInt(parsedItem[0]);
+        totalCost += multiplyQuantity;
     }
+    totalCost = parseFloat(Math.round(totalCost * 100) / 100).toFixed(2);
     holder += `
         <h2>Cart Total: $${totalCost}<button style="margin-left: 30px;" onClick="checkoutFunc(${totalCost})">Checkout</button></h2>
     `
     changeContainer(holder);
+}
+
+const removeCartItem = (item) => {
+    sessionStorage.removeItem(item);
+    console.log(`${item} removed from cart`);
+    viewCart();
 }
 
 //!! Checkout Functionality
@@ -165,7 +173,6 @@ let addToCart = (num) => {
     holderArray.push(quantityItem, cartItem[0]);
     console.log(holderArray);
     sessionStorage.setItem(`${cartItemName}`, JSON.stringify(holderArray));
-    prodSeshStorage += 1;
 }
 
 //!! Category Filter
