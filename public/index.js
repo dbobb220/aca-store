@@ -1,3 +1,8 @@
+//TODO: Add comments and console.log for function and testing
+//TODO: Add functionality for removing items from the cart
+//TODO: Add 'are you still there' functionality
+//?? Answer questions at the end of the readme.md?
+
 // declaring variable
 // make section a variable
 let container = document.querySelector('.product_list');
