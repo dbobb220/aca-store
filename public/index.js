@@ -1,4 +1,5 @@
-//TODO: Add 'are you still there' functionality
+//TODO: Add 'are you still there' functionality - add comments
+//TODO: change form button to place order
 //?? Answer questions at the end of the readme.md?
 
 // declaring variable
