@@ -27,6 +27,8 @@ const loadProducts = (prod) => {
     console.log('products overview view');
 }
 
+//!! Search Functionality
+
 let searchProduct = () => {
     let searchInput = document.querySelector('#search').value;
     let myRegEx = new RegExp(`${searchInput}`, 'gi');
@@ -61,10 +63,34 @@ let viewCart = () => {
         totalCost += parseFloat(removeDollar) * parseInt(parsedItem[0]);
     }
     holder += `
-        <h2>Cart Total: $${totalCost}<button style="margin-left: 30px;"><h2>Checkout</h2></button></h2>
+        <h2>Cart Total: $${totalCost}<button style="margin-left: 30px;" onClick="checkoutFunc(${totalCost})">Checkout</button></h2>
     `
     changeContainer(holder);
+}
 
+//!! Checkout Functionality
+
+const checkoutFunc = (cost) => {
+    let holder = '';
+    holder += `
+    <h3>Cart Total: $${cost}</h3>
+        <form>
+            First name:
+            <br>
+            <input type="text" name="firstname" required>
+            <br>
+            Last name: 
+            <br>
+            <input type="text" name="lastname" required>
+            <br>
+            Email: 
+            <br>
+            <input type="email" name="email" required>
+            <br>
+            <button>Submit</button>
+        </form>
+    `
+    changeContainer(holder);
 }
 
 //!! View Details
@@ -114,6 +140,14 @@ let viewDetail = (num) => {
     `
     changeContainer(holder);
     console.log('product detail view');
+}
+
+//!! Reset functionality 
+
+const resetFunc = () => {
+    console.log('reset clicked');
+    document.querySelector('#search').value = '';
+    loadProducts(products);
 }
 
 //!! Add to cart 
