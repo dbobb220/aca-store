@@ -1,5 +1,3 @@
-//TODO: Add comments and console.log for function and testing
-//TODO: Add functionality for removing items from the cart
 //TODO: Add 'are you still there' functionality
 //?? Answer questions at the end of the readme.md?
 
@@ -104,6 +102,7 @@ const checkoutFunc = (cost) => {
         </form>
     `
     changeContainer(holder);
+    console.log('checkout form dislpayed')
 }
 
 //!! View Details
@@ -171,8 +170,8 @@ let addToCart = (num) => {
     let cartItemName = cartItem[0].name;
     let holderArray = [];
     holderArray.push(quantityItem, cartItem[0]);
-    console.log(holderArray);
     sessionStorage.setItem(`${cartItemName}`, JSON.stringify(holderArray));
+    console.log('item added to cart')
 }
 
 //!! Category Filter
