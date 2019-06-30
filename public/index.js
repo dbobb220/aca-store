@@ -1,19 +1,40 @@
-//TODO: Add 'are you still there' functionality - add comments
-//TODO: change form button to place order
-//?? Answer questions at the end of the readme.md?
+//? Why is storing the shopping cart in sessionStorage not the best choice?
+//* It is not the best choice because local storage is a much better option. If the customer leaves their tab in 
+//* any way (close tab/browser, shuts down computer, battery dies, etc) they would lose everything they placed in their cart */
+//? What should happen when the Place Order button is clicked?
+//* We should use the POST to send out data (cart and client info) to the server */
 
-// declaring variable
-// make section a variable
+//! declaring variables for container, holding data for functions, and are you there feature
 let container = document.querySelector('.product_list');
 let holder = '';
+let areYouThere = true;
 
-//!! Add Products to DOM
+//! SetTimeout for 'Are you there' 
+let promptTimeout = () => {
+    // maintains timeout true each time a click occurs
+    areYouThere = true;
+    console.log('user click - 60 sec timer til prompt');
+    setInterval(() => {
+        // switch varaibale to false
+        areYouThere = false;
+        console.log('Are you still there? prompt initiated');
+        // alert user if variable is false
+        if (!areYouThere) {alert("Are you still there");};
+        areYouThere = true;
+        console.log('user returned - 60 sec timer til prompt');
+    }, 60000);
+};
+
+document.body.addEventListener('click', promptTimeout);
+
+//!! Change the container DOM
 
 const changeContainer = (value) => {
     container.innerHTML = `${value}`;
-    console.log('container changing to');
+    console.log('container changing to...');
 }
 
+//!! Load product overview view when different functions are complete
 const loadProducts = (prod) => {
     holder = '';
     for (let i = 0; i < prod.length; i++) {
@@ -40,6 +61,7 @@ let searchProduct = () => {
     for (let i = 0; i < products.length; i++) {
         let productName = products[i].name;
         let productDesc = products[i].description;
+        // search for regex match in name and description
         if(productName.match(myRegEx) || productDesc.match(myRegEx)) {
             holderArray.push(products[i])
         }
@@ -53,6 +75,7 @@ let searchProduct = () => {
 let viewCart = () => {
     holder = '<h2>Cart</h2>';
     let totalCost = 0;
+    // loop through session storage to grab all add to cart items
     for(let i = 1; i < sessionStorage.length; i++) {
         let cartSeshItem = sessionStorage.getItem(sessionStorage.key(i));
         let parsedItem = JSON.parse(cartSeshItem);
@@ -64,9 +87,12 @@ let viewCart = () => {
             <p><strong>Cost:</strong> $${parseFloat(removeDollar) * parseInt(parsedItem[0])}</p>
             <button onClick="removeCartItem('${parsedItem[1].name}')">Remove From Cart</button>
         `
+        // multiply the quantity and price for each
         let multiplyQuantity = parseFloat(removeDollar) * parseInt(parsedItem[0]);
+        // then add to totalCost variable
         totalCost += multiplyQuantity;
     }
+    // maintain 2 decimal points with total
     totalCost = parseFloat(Math.round(totalCost * 100) / 100).toFixed(2);
     holder += `
         <h2>Cart Total: $${totalCost}<button style="margin-left: 30px;" onClick="checkoutFunc(${totalCost})">Checkout</button></h2>
@@ -83,7 +109,7 @@ const removeCartItem = (item) => {
 //!! Checkout Functionality
 
 const checkoutFunc = (cost) => {
-    let holder = '';
+    holder = '';
     holder += `
     <h3>Cart Total: $${cost}</h3>
         <form>
@@ -99,7 +125,7 @@ const checkoutFunc = (cost) => {
             <br>
             <input type="email" name="email" required>
             <br>
-            <button>Submit</button>
+            <button>Place Order</button>
         </form>
     `
     changeContainer(holder);
@@ -109,10 +135,12 @@ const checkoutFunc = (cost) => {
 //!! View Details
 
 let viewDetail = (num) => {
+    // loop through array to find product id of item clicked
     let filterProduct = products.filter(x => x.id == num);
     let product = filterProduct[0];
     holder = ''
     let eachRating = '';
+    // loop to store each rating in object
     for (let i = 0; i < product.reviews.length; i++) {
         eachRating += `<li>Rating: ${product.reviews[i].rating} - ${product.reviews[i].description}</li>`
     }
@@ -159,17 +187,22 @@ let viewDetail = (num) => {
 
 const resetFunc = () => {
     console.log('reset clicked');
+    // empty search input
     document.querySelector('#search').value = '';
+    //reload all products
     loadProducts(products);
 }
 
 //!! Add to cart 
 
 let addToCart = (num) => {
+    // grab quantity so it can be stored in sessionStorage
     let quantityItem = document.querySelector('#quantity').value;
     let cartItem = products.filter(x => x.id == num);
     let cartItemName = cartItem[0].name;
     let holderArray = [];
+    // set key to item name for storage
+    //* if item already exist in sessionStorage, the new addToCart will override
     holderArray.push(quantityItem, cartItem[0]);
     sessionStorage.setItem(`${cartItemName}`, JSON.stringify(holderArray));
     console.log('item added to cart')
@@ -180,7 +213,9 @@ let addToCart = (num) => {
 let categoryFilter = (category) => {
     console.log(`filter select for ${category}`);
     let holderArray = [];
+    // load all products if all categories is selected
     category == '' ? holderArray = products :
+    // loop through products array to find matching categories 
     products.forEach(val => {
         if(category === val.category) {
             holderArray.push(val)
