@@ -72,25 +72,43 @@ let searchProduct = () => {
 
 //!! Shopping Cart
 
+let changeQuant = (name) => {
+    let newQuant = document.querySelector(`#select_${name}`).value;
+    let sessionItem = sessionStorage.getItem(`${name}`);
+    let sessionArray = JSON.parse(sessionItem);
+    sessionArray[0] = newQuant;
+    sessionStorage.setItem(`${name}`, JSON.stringify(sessionArray));
+    viewCart();
+}
+
 let viewCart = () => {
     holder = '<h2>Cart</h2>';
     let totalCost = 0;
     // loop through session storage to grab all add to cart items
-    for(let i = 1; i < sessionStorage.length; i++) {
+    for(let i = 0; i < sessionStorage.length; i++) {
         let cartSeshItem = sessionStorage.getItem(sessionStorage.key(i));
-        let parsedItem = JSON.parse(cartSeshItem);
-        let removeDollar =  parsedItem[1].price.slice(1);
-        holder += `
-            <h3>Product: ${parsedItem[1].name}</h3>
-            <p><strong>Price:</strong> ${parsedItem[1].price}</p>
-            <p><strong>Quantity:</strong> ${parsedItem[0]}</p>
-            <p><strong>Cost:</strong> $${parseFloat(removeDollar) * parseInt(parsedItem[0])}</p>
-            <button onClick="removeCartItem('${parsedItem[1].name}')">Remove From Cart</button>
-        `
-        // multiply the quantity and price for each
-        let multiplyQuantity = parseFloat(removeDollar) * parseInt(parsedItem[0]);
-        // then add to totalCost variable
-        totalCost += multiplyQuantity;
+        if(cartSeshItem !== 'true') {
+            let parsedItem = JSON.parse(cartSeshItem);
+            let removeDollar =  parsedItem[1].price.slice(1);
+            // to build drop down in view cart
+            let optionHolder = '';
+            // build options 
+            for (let j = 1; j <= 10; j++) {
+                j == parsedItem[0] ? optionHolder += `<option value=${j} selected>${j}</option>`
+                : optionHolder +=  `<option value=${j}>${j}</option>`
+            }
+            holder += `
+                <h3>Product: ${parsedItem[1].name}</h3>
+                <p><strong>Price:</strong> ${parsedItem[1].price}</p>
+                <p><strong>Quantity:</strong><select id="select_${parsedItem[1].name}" onChange="changeQuant('${parsedItem[1].name}')">${optionHolder}</select>
+                <p><strong>Cost:</strong> $${parseFloat(Math.round(parseFloat(removeDollar) * parseFloat(parsedItem[0] * 100)) / 100).toFixed(2)}</p>
+                <button onClick="removeCartItem('${parsedItem[1].name}')">Remove From Cart</button>
+            `
+            // multiply the quantity and price for each
+            let multiplyQuantity = parseFloat(removeDollar) * parseInt(parsedItem[0]);
+            // then add to totalCost variable
+            totalCost += multiplyQuantity;
+        }
     }
     // maintain 2 decimal points with total
     totalCost = parseFloat(Math.round(totalCost * 100) / 100).toFixed(2);
