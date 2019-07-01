@@ -22,7 +22,7 @@ let promptTimeout = () => {
         if (!areYouThere) {alert("Are you still there");};
         areYouThere = true;
         console.log('user returned - 60 sec timer til prompt');
-    }, 60000);
+    }, 600000);
 };
 
 document.body.addEventListener('click', promptTimeout);
@@ -72,8 +72,8 @@ let searchProduct = () => {
 
 //!! Shopping Cart
 
-let changeQuant = (name) => {
-    let newQuant = document.querySelector(`#select_${name}`).value;
+let changeQuant = (name, id) => {
+    let newQuant = document.querySelector(`#${id}`).value;
     let sessionItem = sessionStorage.getItem(`${name}`);
     let sessionArray = JSON.parse(sessionItem);
     sessionArray[0] = newQuant;
@@ -92,6 +92,7 @@ let viewCart = () => {
             let removeDollar =  parsedItem[1].price.slice(1);
             // to build drop down in view cart
             let optionHolder = '';
+            let itemNameId = parsedItem[1].id;
             // build options 
             for (let j = 1; j <= 10; j++) {
                 j == parsedItem[0] ? optionHolder += `<option value=${j} selected>${j}</option>`
@@ -100,7 +101,7 @@ let viewCart = () => {
             holder += `
                 <h3>Product: ${parsedItem[1].name}</h3>
                 <p><strong>Price:</strong> ${parsedItem[1].price}</p>
-                <p><strong>Quantity:</strong><select id="select_${parsedItem[1].name}" onChange="changeQuant('${parsedItem[1].name}')">${optionHolder}</select>
+                <p><strong>Quantity:</strong><select id="select_${itemNameId}" onChange="changeQuant('${parsedItem[1].name}', this.id)">${optionHolder}</select>
                 <p><strong>Cost:</strong> $${parseFloat(Math.round(parseFloat(removeDollar) * parseFloat(parsedItem[0] * 100)) / 100).toFixed(2)}</p>
                 <button onClick="removeCartItem('${parsedItem[1].name}')">Remove From Cart</button>
             `
