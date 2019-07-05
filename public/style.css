@@ -1,3 +1,14 @@
 * {
     font-family: Lato;
+    color:#fff;
+}
+
+h1 {
+    text-align: center;
+}
+
+body {
+    background-image:url('https://images.unsplash.com/photo-1558538337-aab544368de8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80');
+    background-size:cover;
+    margin: 20px !important;
 }
