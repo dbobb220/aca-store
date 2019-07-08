@@ -32,6 +32,9 @@ let areYouThere = true;
 const changeContainer = (value) => {
     container.innerHTML = `${value}`;
     console.log('container changing to...');
+    $(document).ready(function(){
+        $('select').formSelect();
+    });
 }
 
 //!! Load product overview view when different functions are complete
@@ -40,10 +43,10 @@ const loadProducts = (prod) => {
     for (let i = 0; i < prod.length; i++) {
         let product = prod[i];
         holder += `
-        <div class="col s12 m12 l4">
-            <div class="card purple darken-4">
+        <div class="col s12 m12 l6 xl6">
+            <div class="card grey darken-4">
                 <div class="card-content white-text">
-                    <span class="card-title">${product.name}</span>
+                    <span class="card-title" style="font-size:20px;">${product.name}</span>
                     <p>${product.description}</p>
                     <br>
                     <p>Price: ${product.price}</p>
