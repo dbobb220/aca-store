@@ -182,6 +182,9 @@ let viewDetail = (num) => {
         <div style="display:flex;">
         <div style="margin-top: 1.9466666667rem;">
             <img src="${product.imgUrl}" alt="${product.name}"/>
+            <p>
+                <button class="red btn" onClick="loadProducts(products)">Hide Details</button>
+            </p>
         </div>
         <div style="margin-left: 50px;">
             <h3>${product.name}</h3>
@@ -190,24 +193,25 @@ let viewDetail = (num) => {
             <p>Number of Reviews: ${product.reviews.length}</p>
             <p>Price: ${product.price}</p>
             <p>Category: ${product.category}</p>
-            <p>
-                <button class="red btn" onClick="loadProducts(products)">Hide Details</button>
-            </p>
-            <div>
-                <select id="quantity">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
+            <div class="row">
+                <div class="col s6">
+                    <select id="quantity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <div class="col s6">
+                    <button class="green btn" onClick="addToCart(${product.id})">Add To Cart</button>
+                </div>
             </div>
-            <button class="green btn" onClick="addToCart(${product.id})">Add To Cart</button>
         </div>
         </div>
         <div>
