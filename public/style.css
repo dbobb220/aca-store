@@ -18,3 +18,9 @@ body {
 .grey.darken-4 {
     opacity:.8;
 }
+
+div#view_cart {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+}
