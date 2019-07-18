@@ -9,23 +9,33 @@ let container = document.querySelector('.product_list');
 let holder = '';
 let areYouThere = true;
 
-//! SetTimeout for 'Are you there' 
-let promptTimeout = () => {
-    // maintains timeout true each time a click occurs
-    areYouThere = true;
-    console.log('user click - 60 sec timer til prompt');
-    setInterval(() => {
-        // switch varaibale to false
-        areYouThere = false;
-        console.log('Are you still there? prompt initiated');
-        // alert user if variable is false
-        if (!areYouThere) {alert("Are you still there");};
-        areYouThere = true;
-        console.log('user returned - 60 sec timer til prompt');
-    }, 600000);
-};
+//! Add login that posts to heroku
+let userLogin = () => {
+    let store = document.querySelector('#app');
+    let login = document.querySelector('#login_screen');
+    store.setAttribute('style', 'display:block;');
+    login.setAttribute('style', 'display:none;');
 
-document.body.addEventListener('click', promptTimeout);
+    fetch()
+}
+
+//! SetTimeout for 'Are you there' 
+// let promptTimeout = () => {
+//     // maintains timeout true each time a click occurs
+//     areYouThere = true;
+//     console.log('user click - 60 sec timer til prompt');
+//     setInterval(() => {
+//         // switch varaibale to false
+//         areYouThere = false;
+//         console.log('Are you still there? prompt initiated');
+//         // alert user if variable is false
+//         if (!areYouThere) {alert("Are you still there");};
+//         areYouThere = true;
+//         console.log('user returned - 60 sec timer til prompt');
+//     }, 600000);
+// };
+
+// document.body.addEventListener('click', promptTimeout);
 
 //!! Change the container DOM
 

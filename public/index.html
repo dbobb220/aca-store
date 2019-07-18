@@ -8,7 +8,7 @@
    
 </head>
 <body>
-    <div id="login_screen">
+    <div id="login_screen" style="display:block;">
         <h3>Login</h3>
         <form action="">
             Email
@@ -21,8 +21,8 @@
             <input type="password" name="Password" id="user_password" required>
             <br>
             <br>
-            <input type="submit" value="Login" id="user_submit" onclick="userLogin()">
         </form>
+        <button id="user_submit" onclick="userLogin()">Login</button>
     </div>
     <div id="app" style="display:none;">
         <header>

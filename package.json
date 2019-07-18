@@ -1,0 +1,22 @@
+{
+  "name": "aca-store",
+  "version": "1.0.0",
+  "description": "The purpose of this project is to build an Amazon.com like ecommerce website using the front end skills that we should possess by now. You may be suprised that you have already learned all the skills necessary to do this. # Prerequisite * Know how to loop arrays and use array functions like map. * Know how to construct strings, concatenation or string template literals. * Know how to learn about the use of built in tools such as innerHTML or sessionStorage. (read instruction manual)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbobb220/aca-store.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dbobb220/aca-store/issues"
+  },
+  "homepage": "https://github.com/dbobb220/aca-store#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
