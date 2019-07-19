@@ -1,22 +1,66 @@
-//? Why is storing the shopping cart in sessionStorage not the best choice?
-//* It is not the best choice because local storage is a much better option. If the customer leaves their tab in 
-//* any way (close tab/browser, shuts down computer, battery dies, etc) they would lose everything they placed in their cart */
-//? What should happen when the Place Order button is clicked?
-//* We should use the POST to send out data (cart and client info) to the server */
+//* 1. need to change interface so login loads in header only and message in body only
+//* 2. check local storage and if not present show login, if present show products/lists
+//* 3. write POST and log localStorage
+
+//* 1. Use GET for showing products in loadProducts function
+
+//* 1. Make a create product button that loads a form 
+//* 2. Form needs to include product name, description, price
+//* 3. Add a save button that makes a POST /products
+//* 4. Then refresh the list of products using GET from loadProducts
 
 //! declaring variables for container, holding data for functions, and are you there feature
-let container = document.querySelector('.product_list');
 let holder = '';
 let areYouThere = true;
+let headerDOM = document.querySelector('header');
+let mainDOM = document.querySelector('main');
+
+//! conditional to see if user has logged in yet
+let loadPage = () => {
+    // get localStorage variable
+    let loginVar = true;
+    if (loginVar) {
+        headerDOM.innerHTML = `
+            <div>
+                <input type="search" name="" id="search">
+                <input type="submit" value="Search" onClick="searchProduct()">
+                <button type="reset" onClick="resetFunc()">Reset</button>
+                <button id="view_cart" onClick="viewCart()">View Cart</button>
+                <select id="category" onChange="categoryFilter(this.value)">
+                    <option value="">All Categories</option>
+                    <option value="food">Food</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="sporting">Sporting</option>
+                </select>
+            </div>
+        `;
+        mainDOM.innerHTML = `<section class="product_list"></section>`;
+        loadProducts(products);
+    } else {
+        headerDOM.innerHTML = `
+            <div style="text-align: right;">
+                <form action="">
+                    Email:
+                    <input type="email" name="Email" id="user_email" style="margin-right:20px;" required>
+                    Password:
+                    <input type="password" name="Password" id="user_password" required>
+                    <button id="user_submit" onclick="userLogin()">Login</button>
+                </form>
+            </div>
+        `;
+        mainDOM.innerHTML = `<h2 style="display: flex; justify-content: center; align-items: center; height: 250px;">Welcome! Please login</h2>`
+    }
+}
+
+let fetchData = () => {
+    fetch('https://acastore.herokuapp.com/products')
+        .then(res => res.json())
+        .then(data => console.log(data));
+}
 
 //! Add login that posts to heroku
 let userLogin = () => {
-    let store = document.querySelector('#app');
-    let login = document.querySelector('#login_screen');
-    store.setAttribute('style', 'display:block;');
-    login.setAttribute('style', 'display:none;');
 
-    fetch()
 }
 
 //! SetTimeout for 'Are you there' 
@@ -40,6 +84,7 @@ let userLogin = () => {
 //!! Change the container DOM
 
 const changeContainer = (value) => {
+    let container = document.querySelector('.product_list');
     container.innerHTML = `${value}`;
     console.log('container changing to...');
 }
@@ -254,5 +299,4 @@ let categoryFilter = (category) => {
     console.log('category results');
 }
 
-// initial product load
-loadProducts(products);
+loadPage();
