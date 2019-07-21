@@ -2,8 +2,6 @@
 //* 2. check local storage and if not present show login, if present show products/lists
 //* 3. write POST and log localStorage
 
-//* 1. Use GET for showing products in loadProducts function
-
 //* 1. Make a create product button that loads a form 
 //* 2. Form needs to include product name, description, price
 //* 3. Add a save button that makes a POST /products
@@ -15,10 +13,32 @@ let areYouThere = true;
 let headerDOM = document.querySelector('header');
 let mainDOM = document.querySelector('main');
 
+let createProd = () => {
+    console.log('button clicked');
+    let holder = `
+        <h2>Create a Product</h2>
+        <br>
+        Product Name:
+        <br>
+        <input type="text" id="prod_name">
+        <br>
+        <br>
+        Product Description:
+        <br>
+        <input type="text" id="prod_desc">
+        <br>
+        <br>
+        Product Price:
+        <br>
+        <input type="text" id="prod_price">
+    `
+    changeContainer(holder);
+}
+
 //! conditional to see if user has logged in yet
 let loadPage = () => {
-    // get localStorage variable
-    let loginVar = true;
+    let loginVar;
+    localStorage.getItem('userVerified') === null ? loginVar = false : loginVar = true;
     if (loginVar) {
         headerDOM.innerHTML = `
             <div>
@@ -32,20 +52,21 @@ let loadPage = () => {
                     <option value="electronics">Electronics</option>
                     <option value="sporting">Sporting</option>
                 </select>
+                <button onClick="createProd()">Create Product</button>
             </div>
         `;
         mainDOM.innerHTML = `<section class="product_list"></section>`;
-        loadProducts(products);
+        fetchData();
     } else {
         headerDOM.innerHTML = `
             <div style="text-align: right;">
-                <form action="">
+                <div>
                     Email:
                     <input type="email" name="Email" id="user_email" style="margin-right:20px;" required>
                     Password:
                     <input type="password" name="Password" id="user_password" required>
                     <button id="user_submit" onclick="userLogin()">Login</button>
-                </form>
+                </div>
             </div>
         `;
         mainDOM.innerHTML = `<h2 style="display: flex; justify-content: center; align-items: center; height: 250px;">Welcome! Please login</h2>`
@@ -55,12 +76,28 @@ let loadPage = () => {
 let fetchData = () => {
     fetch('https://acastore.herokuapp.com/products')
         .then(res => res.json())
-        .then(data => console.log(data));
+        .then(data => loadProducts(data));
 }
 
 //! Add login that posts to heroku
 let userLogin = () => {
-
+    let userEmail = document.querySelector('#user_email').value;
+    let userPassword = document.querySelector('#user_password').value;
+    let options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({email:`${userEmail}`, password:`${userPassword}`})
+    };
+    
+    fetch('https://acastore.herokuapp.com/users', options)
+        .then(res => res.json())
+        .then(data => {
+            localStorage.setItem('userVerified', JSON.stringify(data));
+            loadPage();   
+    });
+    
 }
 
 //! SetTimeout for 'Are you there' 
@@ -98,7 +135,6 @@ const loadProducts = (prod) => {
         <h3>${product.name}</h3>
         <p>${product.description}<p>
         <p>Rating: ${product.rating}</p>
-        <p>Number of Reviews: ${product.reviews.length}</p>
         <p>Price: ${product.price}</p>
         <p><button onClick="viewDetail(${product.id})">View Details</button></p>
         `
@@ -264,7 +300,7 @@ const resetFunc = () => {
     // empty search input
     document.querySelector('#search').value = '';
     //reload all products
-    loadProducts(products);
+    fetchData();
 }
 
 //!! Add to cart 
