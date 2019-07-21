@@ -13,6 +13,31 @@ let areYouThere = true;
 let headerDOM = document.querySelector('header');
 let mainDOM = document.querySelector('main');
 
+//! Add Product Screen
+
+let addProduct = () => {
+    let prodName = document.querySelector('#prod_name').value;
+    let prodDesc = document.querySelector('#prod_desc').value;
+    let prodPrice = document.querySelector('#prod_price').value;
+    let options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({name: `${prodName}`, description: `${prodDesc}`, price: `${prodPrice}`})
+    };
+
+    fetch('https://acastore.herokuapp.com/products', options)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            loadPage();
+        })
+        .catch(err => console.log(`Err: ${err}`))
+}
+
+//! Create Product Screen
+
 let createProd = () => {
     console.log('button clicked');
     let holder = `
@@ -31,6 +56,9 @@ let createProd = () => {
         Product Price:
         <br>
         <input type="text" id="prod_price">
+        <br>
+        <br>
+        <button onclick="addProduct()">Add Product</button>
     `
     changeContainer(holder);
 }
