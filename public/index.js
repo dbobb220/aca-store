@@ -1,11 +1,5 @@
-//* 1. need to change interface so login loads in header only and message in body only
-//* 2. check local storage and if not present show login, if present show products/lists
-//* 3. write POST and log localStorage
-
-//* 1. Make a create product button that loads a form 
-//* 2. Form needs to include product name, description, price
-//* 3. Add a save button that makes a POST /products
-//* 4. Then refresh the list of products using GET from loadProducts
+//* Cart feature
+//* Place order
 
 //! declaring variables for container, holding data for functions, and are you there feature
 let holder = '';
@@ -122,7 +116,7 @@ let userLogin = () => {
     fetch('https://acastore.herokuapp.com/users', options)
         .then(res => res.json())
         .then(data => {
-            localStorage.setItem('userVerified', JSON.stringify(data));
+            localStorage.setItem('userVerified', JSON.stringify(data.id));
             loadPage();   
     });
     
@@ -334,16 +328,58 @@ const resetFunc = () => {
 //!! Add to cart 
 
 let addToCart = (num) => {
-    // grab quantity so it can be stored in sessionStorage
-    let quantityItem = document.querySelector('#quantity').value;
-    let cartItem = products.filter(x => x.id == num);
-    let cartItemName = cartItem[0].name;
-    let holderArray = [];
-    // set key to item name for storage
-    //* if item already exist in sessionStorage, the new addToCart will override
-    holderArray.push(quantityItem, cartItem[0]);
-    sessionStorage.setItem(`${cartItemName}`, JSON.stringify(holderArray));
-    console.log('item added to cart')
+    let localUser = localStorage.getItem('userVerified');
+    let userInfo = JSON.parse(localUser);
+    let userId = userInfo.id
+    let isUser = [];
+    let cartSesh;
+
+    fetch(`https://acastore.herokuapp.com/carts/`)
+        .then(res => res.json())
+        .then((data) => {
+            isUser = data.filter(x => x.userId == userId);
+            isUser.length ? cartSesh = isUser[0].userId : cartSesh = 0;
+            if(cartSesh == 0) {
+                console.log('create cart id');
+                let quantityItem = document.querySelector('#quantity').value;
+                let cartItem = products.filter(x => x.id == num);
+                let cartItemName = cartItem[0].name;
+                let holderArray = [];
+                holderArray.push(quantityItem, cartItem[0]);
+                let options = {
+                    method: 'POST',
+                    header: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({userId: `${userId}`, products: [`${cartItemName}`, holderArray]})
+                }
+        
+                fetch(`https://acastore.herokuapp.com/carts/`, options)
+                    .then(res => res.json())
+                    .then(data => console.log(data))
+                    .catch(err => console.log(`Err: ${err}`))
+            } else {
+                console.log('update cart id');
+                let quantityItem = document.querySelector('#quantity').value;
+                let cartItem = products.filter(x => x.id == num);
+                let cartItemName = cartItem[0].name;
+                let holderArray = [];
+                holderArray.push(quantityItem, cartItem[0]);
+                let options = {
+                    method: 'PUT',
+                    header: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.parse({products: [`${cartItemName}`, holderArray]})
+                }
+        
+            fetch(`https://acastore.herokuapp.com/carts/${userId}`, options)
+                .then(res => res.json())
+                .then(data => console.log(data))
+                .catch(err=> console.log(`Err: ${err}`))
+            }
+        })
+        .catch(err => console.log(`Err: ${err}`))
 }
 
 //!! Category Filter
