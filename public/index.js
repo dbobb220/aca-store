@@ -9,29 +9,32 @@ let container = document.querySelector('.product_list');
 let holder = '';
 let areYouThere = true;
 
-//! SetTimeout for 'Are you there' 
-let promptTimeout = () => {
-    // maintains timeout true each time a click occurs
-    areYouThere = true;
-    console.log('user click - 60 sec timer til prompt');
-    setInterval(() => {
-        // switch varaibale to false
-        areYouThere = false;
-        console.log('Are you still there? prompt initiated');
-        // alert user if variable is false
-        if (!areYouThere) {alert("Are you still there");};
-        areYouThere = true;
-        console.log('user returned - 60 sec timer til prompt');
-    }, 600000);
-};
+// //! SetTimeout for 'Are you there' 
+// let promptTimeout = () => {
+//     // maintains timeout true each time a click occurs
+//     areYouThere = true;
+//     console.log('user click - 60 sec timer til prompt');
+//     setInterval(() => {
+//         // switch varaibale to false
+//         areYouThere = false;
+//         console.log('Are you still there? prompt initiated');
+//         // alert user if variable is false
+//         if (!areYouThere) {alert("Are you still there");};
+//         areYouThere = true;
+//         console.log('user returned - 60 sec timer til prompt');
+//     }, 600000);
+// };
 
-document.body.addEventListener('click', promptTimeout);
+// document.body.addEventListener('click', promptTimeout);
 
 //!! Change the container DOM
 
 const changeContainer = (value) => {
     container.innerHTML = `${value}`;
     console.log('container changing to...');
+    $(document).ready(function(){
+        $('select').formSelect();
+    });
 }
 
 //!! Load product overview view when different functions are complete
@@ -40,12 +43,19 @@ const loadProducts = (prod) => {
     for (let i = 0; i < prod.length; i++) {
         let product = prod[i];
         holder += `
-        <h3>${product.name}</h3>
-        <p>${product.description}<p>
-        <p>Rating: ${product.rating}</p>
-        <p>Number of Reviews: ${product.reviews.length}</p>
-        <p>Price: ${product.price}</p>
-        <p><button onClick="viewDetail(${product.id})">View Details</button></p>
+        <div class="col s12 m12 l6 xl6">
+            <div class="card grey darken-4">
+                <div class="card-content white-text">
+                    <span class="card-title" style="font-size:20px;">${product.name}</span>
+                    <p>${product.description}</p>
+                    <br>
+                    <p>Price: ${product.price}</p>
+                </div>
+                <div class="card=action">
+                    <a class="waves-effect waves-light btn" style="margin:20px;" onClick="viewDetail(${product.id})">View Details</a>
+                </div>
+            </div>
+        </div>
         `
     }
     changeContainer(holder);
@@ -161,12 +171,20 @@ let viewDetail = (num) => {
     let eachRating = '';
     // loop to store each rating in object
     for (let i = 0; i < product.reviews.length; i++) {
-        eachRating += `<li>Rating: ${product.reviews[i].rating} - ${product.reviews[i].description}</li>`
+        eachRating += `<li class="collection-item avatar black">
+                            <i class="material-icons circle">person</i>
+                            <span class="title yellow-text">Rating: ${product.reviews[i].rating}</span>
+                            <p>${product.reviews[i].description}</p>
+                        </li>`
     }
     holder += `
-    <div style="display:flex;">
-        <div style="margin-top: 1em;">
+    <div style="display:flex; justify-content:space-around;">
+        <div style="display:flex;">
+        <div style="margin-top: 1.9466666667rem;">
             <img src="${product.imgUrl}" alt="${product.name}"/>
+            <p>
+                <button class="red btn" onClick="loadProducts(products)">Hide Details</button>
+            </p>
         </div>
         <div style="margin-left: 50px;">
             <h3>${product.name}</h3>
@@ -175,28 +193,39 @@ let viewDetail = (num) => {
             <p>Number of Reviews: ${product.reviews.length}</p>
             <p>Price: ${product.price}</p>
             <p>Category: ${product.category}</p>
-            <p>
-                <button onClick="loadProducts(products)">Hide Details</button>
-            </p>
-            <p>
-                <select id="quantity">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
-                <button onClick="addToCart(${product.id})">Add To Cart</button>
-            </p>
-            <p>Ratings:</p>
-            <p>${eachRating}</p>
+            <div class="row">
+                <div class="col s6">
+                    <select id="quantity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <div class="col s6">
+                    <button class="green btn" onClick="addToCart(${product.id})">Add To Cart</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div>
+            <h5>Ratings:</h5>
+            <ul class="collection">
+                ${eachRating}
+            </ul>
         </div>
     </div>
+    <script>
+        $(document).ready(function(){
+          $('select').formSelect();
+        });
+    </script> 
     `
     changeContainer(holder);
     console.log('product detail view');
@@ -243,6 +272,7 @@ let categoryFilter = (category) => {
     loadProducts(holderArray);
     console.log('category results');
 }
+
 
 // initial product load
 loadProducts(products);
